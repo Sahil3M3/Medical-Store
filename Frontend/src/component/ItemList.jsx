@@ -29,8 +29,8 @@ const ItemList = () => {
             </tr>
           </thead>
           <tbody>
-            {itemList.map((item, index) => (
-              <Item key={index} name={item.name} description={item.description} price={item.price} />
+            {itemList.map((item,index) => (
+              <Item key={index} id={item.id} name={item.name} description={item.description} price={item.price} />
             ))}
           </tbody>
         </Table>

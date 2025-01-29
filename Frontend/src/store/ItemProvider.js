@@ -28,7 +28,7 @@ const addToItem= async(item)=>{
     }
     
 }
-const fetchData= async()=>{
+const fetchDataItem= async()=>{
     let url="http://localhost:5000/item/";
 
     try{
@@ -37,13 +37,11 @@ const fetchData= async()=>{
         const {data}=await response.json();
     let array=await JSON.parse(data);    
      array.forEach(item=>{
-        console.log(item);
         
         setItems((ps)=>{
             return [...ps,item]
         })
      })
-    
 
     }
     catch(e){
@@ -52,17 +50,53 @@ const fetchData= async()=>{
     }
 
 }
+const fetchDataCart = async () => {
+    let url = "http://localhost:5000/cart/";
+  
+    try {
+      const response = await fetch(url);
+      let data = await response.json();
+      
+      await setCart(data.map((cartItem) => {
+        
+        return {...cartItem.itemDetails,quantity:cartItem.quantity}}
+      ))
+
+
+    } catch (e) {
+      console.log("Error fetching cart items:", e);
+    }
+  };
+
+
 useEffect(()=>{
-    fetchData();
+    fetchDataItem();
+    fetchDataCart();
 },[])
 
-const addToCart=(item)=>{
-    setCart((ps)=>{
-        return [...ps,item];
-    })
-    console.log(cart);
+const addToCart = async (id) => {
+    console.log(id);
     
-}
+    try {
+      let url = "http://localhost:5000/cart/";
+      const response = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify({ itemId: id }), // Send only itemId
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  
+      const data = await response.json();
+      console.log("Cart Item Saved:", data);
+  
+      // Fetch updated cart from the backend
+      fetchDataCart();
+    } catch (error) {
+      console.log("Error adding to cart:", error);
+    }
+  };
+  
     const itemCtx={
         items:items,
         cart:cart,

@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button } from 'react-bootstrap';
+import itemContent from '../store/item-content';
 
-const Item = ({ name, description, price }) => {
+const Item = ({ name, description,id, price }) => {
+  
+  const itemCtx=useContext(itemContent);
+  
+  const handleClick=(event)=>{
+    event.preventDefault()
+    
+    itemCtx.addToCart(id);
+  
+}
+
+
   return (
     <tr style={{ textAlign: 'center', borderBottom: '1px solid #ddd' }}>
       <td style={{ padding: '10px' }}>{name}</td>
@@ -16,7 +28,7 @@ const Item = ({ name, description, price }) => {
         />
       </td>
       <td style={{ padding: '10px' }}>
-        <Button variant="primary" style={{ padding: '5px 10px', borderRadius: '5px' }}>
+        <Button variant="primary" onClick={handleClick} style={{ padding: '5px 10px', borderRadius: '5px' }}>
           Add to Cart
         </Button>
       </td>
