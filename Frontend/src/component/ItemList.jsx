@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Item from './Item';
 import { Container, Table } from 'react-bootstrap';
+import itemContent from '../store/item-content';
 
 const ItemList = () => {
-  const itemList = [
-    { name: 'Sahil', description: 'New product', price: 200 },
-    { name: 'Harsha', description: 'New product 2', price: 100 }
-  ];
+  const itemCtx=useContext(itemContent);
+  const itemList = itemCtx.items;
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '40px' }}>

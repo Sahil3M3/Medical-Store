@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import itemContent from "./item-content"
 
 const ItemProvider = (props) => {
@@ -28,6 +28,34 @@ const addToItem= async(item)=>{
     }
     
 }
+const fetchData= async()=>{
+    let url="http://localhost:5000/item/";
+
+    try{
+
+        const response =await fetch(url);
+        const {data}=await response.json();
+    let array=await JSON.parse(data);    
+     array.forEach(item=>{
+        console.log(item);
+        
+        setItems((ps)=>{
+            return [...ps,item]
+        })
+     })
+    
+
+    }
+    catch(e){
+        console.log(e);
+        
+    }
+
+}
+useEffect(()=>{
+    fetchData();
+},[])
+
 const addToCart=(item)=>{
     setCart((ps)=>{
         return [...ps,item];
